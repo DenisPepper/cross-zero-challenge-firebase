@@ -1,0 +1,5 @@
+.messages {
+    max-height: calc(100% - 35px);
+    overflow: hidden;
+    border-radius: 6px;
+}
