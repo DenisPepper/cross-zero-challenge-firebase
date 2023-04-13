@@ -1,0 +1,16 @@
+.main {
+    background-color: var(--first-color);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    display: flex;
+    width: 65%;
+    height: 80%;
+    border: 2px solid var(--second-color);
+    border-radius: 10px;
+    overflow: hidden;
+}
