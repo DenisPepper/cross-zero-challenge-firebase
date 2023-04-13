@@ -1,0 +1,13 @@
+.navbar {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    background-color: var(--third-color);
+    color: var(--first-color);
+}
+
+.title {
+    margin: auto;
+}
+
+
