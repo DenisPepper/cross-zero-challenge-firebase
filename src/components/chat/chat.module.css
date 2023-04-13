@@ -1,0 +1,70 @@
+.chat {
+    flex-grow: 3;
+    background-color: var(--first-color);
+    padding: 10px 10px 70px;
+    color: var(--third-color);
+    position: relative;
+}
+
+.header {
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--first-color);
+}
+
+.companion {
+
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+}
+
+.avatar {
+    display: block;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--first-color);
+    object-fit: cover;
+}
+
+.name {
+
+}
+
+.logout {
+    margin-left: 10px;
+    border: 2px solid var(--second-color);
+    border-radius: 4px;
+    padding: 4px;
+    background: none;
+    color: var(--third-color);
+    font-weight: bold;
+}
+
+.logout:hover {
+    border-color: var(--third-color);
+    color: var(--third-color);
+}
+
+.logout:active {
+    border-color: var(--third-color);
+    background-color: var(--third-color);
+    color: var(--fourth-color);
+}
+
+.logout:focus-visible {
+    outline-offset: 2px;
+}
+
+.logout:hover,
+.logout:active
+{
+    cursor: pointer;
+}
