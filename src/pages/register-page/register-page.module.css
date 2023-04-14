@@ -70,10 +70,6 @@
     cursor: pointer;
 }
 
-.file input {
-    display: none;
-}
-
 .file span {
     color: var(--second-color);
     font-size: 12px;
