@@ -21,7 +21,7 @@ export const RegisterPage = () => {
     const navigate = useNavigate();
 
     const handleFormSubmit = async (form: FormData) => {
-        const displayName = form.get(inputName.email)?.toString();
+        const displayName = form.get(inputName.nickname)?.toString();
         const email = form.get(inputName.email)?.toString() ?? '';
         const password = form.get(inputName.pass)?.toString() ?? '';
         const file = form.get(inputName.file) as File;

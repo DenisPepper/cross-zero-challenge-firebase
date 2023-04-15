@@ -5,14 +5,14 @@ import {signOut} from 'firebase/auth'
 import {auth} from "../../firebase";
 import {useContext} from "react";
 import {AuthContext} from "../auth-provider/auth-provider";
+import defaultAvatar from '../../assets/img/default-avatar.jpg';
 
 export const Chat = () => {
-    const authContext = useContext(AuthContext);
+    const {user} = useContext(AuthContext);
 
     const handleLogoutClick = async () => {
         try {
             await signOut(auth);
-            authContext.user = null;
         } catch (err) {
             console.log(err)
         }
@@ -23,8 +23,8 @@ export const Chat = () => {
             <div className={css.header}>
                 <span className={css.companion}>Jane</span>
                 <div className={css.user}>
-                    <img className={css.avatar} src={'https://avatars.mds.yandex.net/i?id=ea668d40a1b5f4cef64b1acbeff36791_sr-5834815-images-thumbs&n=13'} alt='user avatar'/>
-                    <span className={css.name}>User</span>
+                    <img className={css.avatar} src={user?.photoURL ?? defaultAvatar} alt='user avatar'/>
+                    <span className={css.name}>{user?.displayName}</span>
                     <button className={css.logout} type='button' onClick={handleLogoutClick}>Logout</button>
                 </div>
             </div>
