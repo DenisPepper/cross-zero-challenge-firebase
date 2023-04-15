@@ -5,6 +5,7 @@ import {createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
 import {ref, uploadBytesResumable, getDownloadURL} from "firebase/storage";
 import {doc, setDoc} from 'firebase/firestore';
 import {auth, storage, db} from "../../firebase";
+import {Link, useNavigate} from "react-router-dom";
 
 const EXTENSIONS = ['jpg', 'jpeg', 'png'];
 
@@ -17,6 +18,7 @@ const inputName: Record<'nickname' | 'email' | 'pass' | 'file', string> = {
 
 export const RegisterPage = () => {
     const avatarRef = useRef<HTMLImageElement | null>(null);
+    const navigate = useNavigate();
 
     const handleFormSubmit = async (form: FormData) => {
         const displayName = form.get(inputName.email)?.toString();
@@ -25,24 +27,24 @@ export const RegisterPage = () => {
         const file = form.get(inputName.file) as File;
         try {
             const {user} = await createUserWithEmailAndPassword(auth, email, password);
-            if (file) {
-                const storageRef = ref(storage, displayName);
-                const uploadTask = uploadBytesResumable(storageRef, file);
-                uploadTask.on('state_changed',
-                    undefined,
-                    (err) => console.log(err),
-                    () => {
-                        getDownloadURL(uploadTask.snapshot.ref)
-                            .then(async (photoURL) => {
-                                await updateProfile(user, {displayName, photoURL});
-                                await setDoc(doc(db, 'users', user.uid), {
-                                        displayName, email, photoURL, uid: user.uid
-                                    }
-                                );
-                            })
-                    }
-                );
-            }
+            const storageRef = ref(storage, displayName);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+            uploadTask.on('state_changed',
+                undefined,
+                (err) => console.log(err),
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref)
+                        .then(async (photoURL) => {
+                            await updateProfile(user, {displayName, photoURL});
+                            await setDoc(doc(db, 'users', user.uid), {
+                                    displayName, email, photoURL, uid: user.uid
+                                }
+                            );
+                            await setDoc(doc(db, 'userChats', user.uid), {});
+                        })
+                }
+            );
+            navigate('/');
         } catch (err) {
             console.log(err);
         }
@@ -70,9 +72,14 @@ export const RegisterPage = () => {
                         evt.preventDefault();
                         handleFormSubmit(new FormData(evt.currentTarget)).then();
                     }}>
-                    <input name={inputName.nickname} type="text" placeholder='user name'/>
-                    <input name={inputName.email} type="email" placeholder='email' autoComplete='off'/>
-                    <input name={inputName.pass} type="password" placeholder='password' autoComplete='new-password'
+                    <input name={inputName.nickname} type="text" placeholder='user name' required/>
+                    <input name={inputName.email} type="email" placeholder='email' autoComplete='off' required/>
+                    <input
+                        name={inputName.pass}
+                        type="password"
+                        placeholder='password'
+                        autoComplete='new-password'
+                        required
                     />
                     <label className={css.file}>
                         <input
@@ -81,13 +88,14 @@ export const RegisterPage = () => {
                             name={inputName.file}
                             type="file"
                             accept='image/png, image/jpeg'
+                            required
                         />
                         <img src={avatar} ref={avatarRef} alt="add your avatar" width={40} height={40}/>
                         <span>Add an avatar</span>
                     </label>
                     <button type='submit'>Sing up</button>
                 </form>
-                <p className={css.link}>You have an account? <a href={'/login'}>Login</a></p>
+                <p className={css.link}>You have an account? <Link to={'/login'}>Login</Link></p>
             </div>
         </section>
     );

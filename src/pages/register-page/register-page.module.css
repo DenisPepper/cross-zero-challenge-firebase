@@ -70,6 +70,10 @@
     cursor: pointer;
 }
 
+.file img {
+    object-fit: contain;
+}
+
 .file span {
     color: var(--second-color);
     font-size: 12px;
